@@ -348,7 +348,7 @@ Even after sending a purge request, updates have been known to take up to 12 hou
 
 ## Version Pinning
 
-Instead of @main, you can pin a version/commit to avoid breaking changes
+Instead of @main, you can pin a **Release version** or a **Commit** to avoid breaking changes
 
 ```css
 @import url("https://cdn.jsdelivr.net/gh/example/jellyfintheme@1.2.1/theme.css");
