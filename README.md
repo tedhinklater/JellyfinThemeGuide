@@ -11,11 +11,35 @@ If you want every user on the server to have the CSS applied by default, go to y
 
 ### Current user application
 
-If you only want it applied to the current user, click your profile picture, go to Display > enable ```Disable server-provided custom CSS code``` and paste your CSS into the box.
+If you only want it applied to the current user, click your profile picture, go to Display > enable "_Disable server-provided custom CSS code_" and paste your CSS into the box.
 
 # How the CSS works
 
-CSS only affects ```jellyfin-web``` so that includes any client using the web wrapper, e.g. Chrome, Firefox, Brave, Jellyfin Media Player, Jellyfin app for Android etc.
+CSS **only affects jellyfin-web** so that includes any client using the web wrapper, e.g. Chrome, Firefox, Brave, Jellyfin Media Player, Jellyfin app for Android etc.
+
+# Knowing What To Target
+
+In your browser, Press ```F12``` to open Dev Tools, and use the **Inspect Element** button to find what you're looking for
+
+![target](https://github.com/user-attachments/assets/d6f7ee15-8fc8-46c5-a028-a25589060185)
+
+| Element Type     | HTML                                                  | CSS                                     |
+|------------------|-------------------------------------------------------|-----------------------------------------|
+| Class            | `<div class="card">`                                  | `.card`                                 |
+| ID               | `<div id="indexPage">`                                | `#indexPage`                            |
+| Multiple Classes | `<div class="card focused">`                          | `.card.focused`                         |
+| Descendant       | `<div class="card"><span class="title"></span></div>` | `.card .title`                          |
+| Attribute        | `<div data-type="movie">`                             | `[data-type="movie"]`                   |
+
+So to only target Movie cards in the More Like This Section, while they're being focused
+
+```css
+#similarCollapsible .card.focused[data-type="Movie"] {
+  font-size: 200%;
+}
+```
+
+Many sub-elements are nested unless specifically Inspected, so look deep if you want to create a specifically-targeted rule
 
 # Rules
 
@@ -26,24 +50,24 @@ We'll use a card (the poster/picture of a media item such as a movie/episode) as
 
 ### 200% will get priority here
 ```css
-.card { font-size: 100%;}
+.card { font-size: 100%; }
 
-.card { font-size: 200%;}
+.card { font-size: 200%; }
 ```
 
 ### 100% will get priority here with ```!important``` 
 ```css
-.card { font-size: 100% !important;}
+.card { font-size: 100% !important; }
 
-.card { font-size: 200%;}
+.card { font-size: 200%; }
 ```
 
-### 100% will be applied to the card element, and 200% will be applied to the more-specific backdropCard (landscape cards) element inside it
+### 100% will be applied to all card elements, and 200% will be applied to the more-specific backdropCard (landscape cards) element inside it
 If it applies to that element, the more specific rule will take priority
 ```css
-.card { font-size: 100%;}
+.card { font-size: 100%; }
 
-.card.backdropCard { font-size: 200%;}
+.card.backdropCard { font-size: 200%; }
 ```
 
 # Targeting Devices
@@ -186,7 +210,7 @@ If guest cast is not present, set cardText to 200%
 }
 ```
 
-# Hovering
+# Hover (Desktop)
 
 This will apply ```font-size: 200%``` on hover, with an instant (0s) transition with a duration of 0.5s
 
@@ -199,6 +223,24 @@ There is also a small transition delay of 0.1s when un-hovering (prevents buggy 
 }
 
 .layout-desktop .cardText:hover {
+  font-size: 200%;
+  transition: font-size 0.5s ease-out 0s;
+}
+```
+
+# Focus (TV)
+
+This will apply ```font-size: 200%``` on focus, with an instant (0s) transition with a duration of 0.5s
+
+There is also a small transition delay of 0.1s when un-hovering (prevents buggy animation)
+
+```css
+.layout-tv .cardText {
+  font-size: 100%;
+  transition: font-size 0.5s ease-out 0.1s;
+}
+
+.layout-tv .cardText:focus {
   font-size: 200%;
   transition: font-size 0.5s ease-out 0s;
 }
