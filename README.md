@@ -3,6 +3,39 @@ A guide/cookbook for making Jellyfin themes
 
 If you want to make your own Jellyfin theme, this guide is for you.
 
+# Contents
+
+- [Where to put it](#where-to-put-it)
+  - [Server-wide application](#server-wide-application)
+  - [Current user application](#current-user-application)
+- [How the CSS works](#how-the-css-works)
+- [Knowing What To Target](#knowing-what-to-target)
+- [Rules](#rules)
+  - [Priority](#priority)
+  - [Targeting Devices](#targeting-devices)
+  - [Different elements, one rule](#different-elements-one-rule)
+  - [One element, different rules](#one-element-different-rules)
+    - [Rules based on screen size](#rules-based-on-screen-size)
+    - [Rules based on page elements](#rules-based-on-page-elements)
+      - [Page with a portraitCard](#page-with-a-portraitcard-poster-as-the-main-image)
+      - [Actor Bio Page](#actor-bio-page)
+      - [Season (Episode list) Page](#season-episode-list-page)
+      - [Episode Page](#episode-page)
+      - [Artist Page](#artist-page)
+      - [Album Page](#album-page)
+      - [Cast](#cast)
+      - [Shuffle Button](#shuffle-button)
+      - [Next Up](#next-up)
+      - [Playlists](#playlists)
+      - [Collection](#collection)
+- [Hover (Desktop)](#hover-desktop)
+- [Focus (TV)](#focus-tv)
+- [Adding pseudo-elements](#adding-pseudo-elements)
+- [Publishing](#publishing)
+  - [Migrate from GitHub to jsDelivr](#migrate-from-github-to-jsdelivr)
+  - [jsDelivr and Jellyfin both aggressively cache files to save time](#jsdelivr-and-jellyfin-both-aggressively-cache-files-to-save-time)
+  - [Version Pinning](#version-pinning)
+
 # Where to put it
 
 ### Server-wide application
@@ -284,4 +317,45 @@ This adds a black background to cards but it is anchored to the top-left of the 
   z-index: 0;
   pointer-events: none;
 }
+```
+
+# Publishing
+
+### Migrate from GitHub to jsDelivr
+
+After creating a github repo and uploading your **theme.css** head to [jsDelivr](https://www.jsdelivr.com/github) to serve it as a CDN-hosted file.
+
+```html
+https://github.com/example/jellyfintheme/blob/main/theme.css
+```
+
+becomes:
+```html
+https://cdn.jsdelivr.net/gh/example/jellyfintheme@main/theme.css
+```
+
+Now turn it into an import line for Jellyfin:
+
+```css
+@import url("https://cdn.jsdelivr.net/gh/example/jellyfintheme@main/theme.css");
+```
+
+### jsDelivr and Jellyfin both aggressively cache files to save time
+
+Even after sending a purge request, updates have been known to take up to 12 hours to appear
+
+`Ctrl+F5` (hard refresh) in the browser is often required and Jellyfin clients like to cache longer than browsers
+
+## Version Pinning
+
+Instead of @main, you can pin a version/commit to avoid breaking changes
+
+```css
+@import url("https://cdn.jsdelivr.net/gh/example/jellyfintheme@1.2.1/theme.css");
+```
+
+Or a specific commit
+
+```css
+@import url("https://cdn.jsdelivr.net/gh/example/jellyfintheme@a9je0q9jd9wek/theme.css");
 ```
