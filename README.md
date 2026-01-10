@@ -52,7 +52,7 @@ CSS only affects Jellyfin Web and clients that embed the web UI, such as browser
 
 # Knowing What To Target
 
-In your browser, Press ```F12``` to open Dev Tools, and use the **Inspect Element** button to find what you're looking for
+In your browser, Press ```F12``` to open Dev Tools, and use the **Inspect Element** button, and the mouse & up/down arrows on your keyboard to find what you're looking for
 
 ![target](https://github.com/user-attachments/assets/d6f7ee15-8fc8-46c5-a028-a25589060185)
 
