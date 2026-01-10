@@ -1,7 +1,7 @@
 # Jellyfin Theme Guide
 A guide/cookbook for making Jellyfin themes
 
-If you want to make your own jellyfin theme, this is for you.
+If you want to make your own Jellyfin theme, this guide is for you.
 
 # Where to put it
 
@@ -15,7 +15,7 @@ If you only want it applied to the current user, click your profile picture, go 
 
 # How the CSS works
 
-CSS **only affects jellyfin-web** so that includes any client using the web wrapper, e.g. Chrome, Firefox, Brave, Jellyfin Media Player, Jellyfin app for Android etc.
+CSS only affects Jellyfin Web and clients that embed the web UI, such as browsers (Chrome, Firefox), Jellyfin Media Player, and the Android app. Native TV apps may use their own UI or only partially support CSS themes.
 
 # Knowing What To Target
 
@@ -45,7 +45,7 @@ Many sub-elements are nested unless specifically Inspected, so look deep if you 
 
 ## Priority 
 
-HTML defines the elements, CSS (Cascading Style Sheet) positions them. ```Cascading``` is the key word here; when two rules for the same specific element are written, the last/latest CSS rule is the one that gets priority. 
+HTML defines the elements, CSS (Cascading Style Sheets) controls how they look and behave. _Cascading_ is the key word here; when two rules for the same specific element are written, the last/latest CSS rule is the one that gets priority. 
 We'll use a card (the poster/picture of a media item such as a movie/episode) as an example:
 
 ### 200% will get priority here
@@ -81,6 +81,8 @@ This will apply ```font-size: 200%``` to all backdropCards on mobile, desktop an
   font-size: 200%;
 }
 ```
+Jellyfin adds these classes to the `<body>` element which is why you don't see it in the HTML.
+If you set your Jellyfin client's **Display Mode** (in Settings) to Desktop or TV you can see the difference.
 
 # Different elements, one rule
 You can apply the same rule to different elements.
@@ -89,7 +91,7 @@ In this example, cardText is only targeted on desktops, only portraitCards are t
 .layout-mobile .card.portraitCard,
 .layout-tv .card,
 .layout-desktop .card.squareCard,
-.layout-desktop .card.backdropcard,
+.layout-desktop .card.backdropCard,
 .layout-desktop .cardText {
   font-size: 200%;
 }
@@ -104,14 +106,14 @@ In this example, cardText is only targeted on desktops, only portraitCards are t
 ```css
 @media (max-width: 999px) and (orientation: landscape) {
   .layout-desktop .cardText {
-    font-size: 200%;
+    font-size: 100%;
     color: #000;
   }
 }
 
 @media (min-width: 1000px) and (orientation: portrait) {
   .layout-desktop .cardText {
-    font-size: 100%;
+    font-size: 200%;
     color: #000;
   }
 }
@@ -246,22 +248,33 @@ There is also a small transition delay of 0.1s when un-hovering (prevents buggy 
 }
 ```
 
-# Adding psuedo-elements
+# Adding pseudo-elements
 
-You can up to 2 pseudo-elements (```before``` and ```after```), per html element.
+You can have up to 2 pseudo-elements (```::before``` and ```::after```), per HTML element.
 
-A pseudo-element is attached to a html element, and can be used to add shapes, colour, backgrounds etc.
+A pseudo-element is attached to a HTML element and can be used to add shapes, colour, backgrounds, and other decoration **without modifying the HTML**.
 
-The 1st adds a black background to cardText
+This adds a black background to cardText
 
-The 2nd adds a black backround to cards but it is anchored to the top-left of the screen
 ```css
+.layout-desktop .cardText {
+  position: relative;
+  z-index: 1;
+}
+
 .layout-desktop .cardText::before {
   content: '';
   position: absolute;
+  inset: 0;
   background: #000;
   z-index: -1;
+  pointer-events: none;
 }
+```
+
+This adds a black background to cards but it is anchored to the top-left of the screen
+
+```css
 
 .layout-desktop .card::before {
   content: '';
@@ -272,4 +285,3 @@ The 2nd adds a black backround to cards but it is anchored to the top-left of th
   pointer-events: none;
 }
 ```
-
