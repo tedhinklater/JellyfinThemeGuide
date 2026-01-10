@@ -2,8 +2,9 @@
 A guide/cookbook for making Jellyfin themes
 
 If you want to make your own Jellyfin theme, this guide is for you.
-
-# Contents
+### Contents
+<details>
+<summary>Click to Expand</summary>
 
 - [Where to put it](#where-to-put-it)
   - [Server-wide application](#server-wide-application)
@@ -35,6 +36,7 @@ If you want to make your own Jellyfin theme, this guide is for you.
   - [Migrate from GitHub to jsDelivr](#migrate-from-github-to-jsdelivr)
   - [jsDelivr and Jellyfin both aggressively cache files to save time](#jsdelivr-and-jellyfin-both-aggressively-cache-files-to-save-time)
   - [Version Pinning](#version-pinning)
+</details>
 
 # Where to put it
 
