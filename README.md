@@ -170,7 +170,7 @@ We'll target specific pages using cardText as a basic example
 
 ### Actor Bio Page
 ```css
-.layout-desktop .itemDetailPage:has(.detailImageContainer > .card .cardImageIcon.person) .cardText {
+.layout-desktop .layout-desktop body:has(#itemBirthday:not(.hide)) .cardText {
   font-size: 200%;
 }
 ```
